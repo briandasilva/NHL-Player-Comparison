@@ -2,8 +2,9 @@ from flask import Flask, render_template
 from bs4 import BeautifulSoup
 import requests
 
-app = Flask(__name__) @ app.route("/")
+app = Flask(__name__)
 
 
+@app.route("/")
 def index():
-    return render_template("index.html,**locals())app.run(debug=True)")
+    return render_template("index.html")
