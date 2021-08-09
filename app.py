@@ -20,7 +20,6 @@ def index():
 
     result = result[~result["Age"].str.contains("Age")]
     result = result.reset_index(drop=True)
-
-    table = pd.DataFrame.to_html(result)
-
-    return render_template("index.html", tables=[result.to_html(classes="data")], titles=result.columns.values)
+    return render_template(
+        "index.html", column_names=result.columns.values, row_data=list(result.values.tolist()), zip=zip
+    )
