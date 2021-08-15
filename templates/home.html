@@ -3,26 +3,6 @@
   <div class="container">
     <h1 class="title">Hello World</h1>
     <p class="subtitle">My first website with <strong>Bulma</strong>!</p>
-    <div class="table-container">
-      <table class="table is-striped is-hoverable">
-        <thread>
-          <tr>
-            {% for col in column_names %}
-            <th>{{col}}</th>
-            {% endfor %}
-          </tr>
-        </thread>
-        <tbody>
-          {% for row in row_data %}
-          <tr>
-            {% for col, row_ in zip(column_names, row) %}
-            <td>{{row_}}</td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
   </div>
 </section>
 {% endblock %}

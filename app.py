@@ -9,7 +9,12 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def index():
+def homePage():
+    return render_template("home.html")
+
+
+@app.route("/stats/skaters")
+def skaterStats():
     source = requests.get("https://www.hockey-reference.com/leagues/NHL_2021_skaters.html").text
     soup = BeautifulSoup(source, "lxml")
 
@@ -21,5 +26,5 @@ def index():
     result = result[~result["Age"].str.contains("Age")]
     result = result.reset_index(drop=True)
     return render_template(
-        "home.html", column_names=result.columns.values, row_data=list(result.values.tolist()), zip=zip
+        "skaterstats.html", column_names=result.columns.values, row_data=list(result.values.tolist()), zip=zip
     )
