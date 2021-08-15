@@ -21,5 +21,5 @@ def index():
     result = result[~result["Age"].str.contains("Age")]
     result = result.reset_index(drop=True)
     return render_template(
-        "index.html", column_names=result.columns.values, row_data=list(result.values.tolist()), zip=zip
+        "home.html", column_names=result.columns.values, row_data=list(result.values.tolist()), zip=zip
     )
