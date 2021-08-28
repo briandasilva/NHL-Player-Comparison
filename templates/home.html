@@ -1,8 +1,25 @@
 {% extends "layout.html" %} {% block content %}
 <section class="section">
   <div class="container">
-    <h1 class="title">Hello World</h1>
-    <p class="subtitle">My first website with <strong>Bulma</strong>!</p>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title is-primary">
+          Compare the stats of your favorite NHL players!
+        </h1>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <button class="button is is-primary is-fullwidth is-medium">
+          Compare Skaters
+        </button>
+      </div>
+      <div class="column">
+        <button class="button is-primary is-fullwidth is-medium">
+          Compare Goalies
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}

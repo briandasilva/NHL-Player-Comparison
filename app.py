@@ -7,6 +7,17 @@ import pandas as pd
 
 app = Flask(__name__)
 
+source = requests.get("https://www.hockey-reference.com/leagues/NHL_2021_skaters.html").text
+soup = BeautifulSoup(source, "lxml")
+
+result = pd.DataFrame()
+url = "https://www.hockey-reference.com/leagues/NHL_2021_skaters.html"
+df = pd.read_html(url, header=1)[0]
+result = result.append(df, sort=False)
+
+result = result[~result["Age"].str.contains("Age")]
+result = result.reset_index(drop=True)
+
 
 @app.route("/")
 def homePage():
@@ -15,16 +26,11 @@ def homePage():
 
 @app.route("/stats/skaters")
 def skaterStats():
-    source = requests.get("https://www.hockey-reference.com/leagues/NHL_2021_skaters.html").text
-    soup = BeautifulSoup(source, "lxml")
-
-    result = pd.DataFrame()
-    url = "https://www.hockey-reference.com/leagues/NHL_2021_skaters.html"
-    df = pd.read_html(url, header=1)[0]
-    result = result.append(df, sort=False)
-
-    result = result[~result["Age"].str.contains("Age")]
-    result = result.reset_index(drop=True)
     return render_template(
         "skaterstats.html", column_names=result.columns.values, row_data=list(result.values.tolist()), zip=zip
     )
+
+
+@app.route("/about")
+def aboutPage():
+    return render_template("about.html")
