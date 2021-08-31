@@ -1,29 +1,29 @@
-from flask import flask, render_template, request
-from bs4 import beautiful_soup
+from flask import Flask, render_template, request
+from bs4 import BeautifulSoup
 import requests
 import lxml
 import pandas as pd
 
 
-app = flask(__name__)
+app = Flask(__name__)
 
 
-skater_results = pd.data_frame()
-url = "https://www.hockey-reference.com/leagues/nhl_2021_skaters.html"
+skater_results = pd.DataFrame()
+url = "https://www.hockey-reference.com/leagues/NHL_2021_skaters.html"
 df = pd.read_html(url, header=1)[0]
-skater_results = skater_results.append(df, sort=false)
+skater_results = skater_results.append(df, sort=False)
 
-skater_results = skater_results[~skater_results["age"].str.contains("age")]
-skater_results = skater_results.reset_index(drop=true)
+skater_results = skater_results[~skater_results["Age"].str.contains("Age")]
+skater_results = skater_results.reset_index(drop=True)
 
 
-goalie_results = pd.data_frame()
-url = "https://www.hockey-reference.com/leagues/nhl_2021_goalies.html"
+goalie_results = pd.DataFrame()
+url = "https://www.hockey-reference.com/leagues/NHL_2021_goalies.html"
 df = pd.read_html(url, header=1)[0]
-goalie_results = goalie_results.append(df, sort=false)
+goalie_results = goalie_results.append(df, sort=False)
 
-goalie_results = goalie_results[~goalie_results["age"].str.contains("age")]
-goalie_results = goalie_results.reset_index(drop=true)
+goalie_results = goalie_results[~goalie_results["Age"].str.contains("Age")]
+goalie_results = goalie_results.reset_index(drop=True)
 
 
 @app.route("/")
