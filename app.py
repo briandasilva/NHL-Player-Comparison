@@ -1,36 +1,59 @@
-from flask import Flask, render_template
-from bs4 import BeautifulSoup
+from flask import flask, render_template, request
+from bs4 import beautiful_soup
 import requests
 import lxml
 import pandas as pd
 
 
-app = Flask(__name__)
+app = flask(__name__)
 
-source = requests.get("https://www.hockey-reference.com/leagues/NHL_2021_skaters.html").text
-soup = BeautifulSoup(source, "lxml")
 
-result = pd.DataFrame()
-url = "https://www.hockey-reference.com/leagues/NHL_2021_skaters.html"
+skater_results = pd.data_frame()
+url = "https://www.hockey-reference.com/leagues/nhl_2021_skaters.html"
 df = pd.read_html(url, header=1)[0]
-result = result.append(df, sort=False)
+skater_results = skater_results.append(df, sort=false)
 
-result = result[~result["Age"].str.contains("Age")]
-result = result.reset_index(drop=True)
+skater_results = skater_results[~skater_results["age"].str.contains("age")]
+skater_results = skater_results.reset_index(drop=true)
+
+
+goalie_results = pd.data_frame()
+url = "https://www.hockey-reference.com/leagues/nhl_2021_goalies.html"
+df = pd.read_html(url, header=1)[0]
+goalie_results = goalie_results.append(df, sort=false)
+
+goalie_results = goalie_results[~goalie_results["age"].str.contains("age")]
+goalie_results = goalie_results.reset_index(drop=true)
 
 
 @app.route("/")
-def homePage():
+def home_page():
     return render_template("home.html")
 
 
+@app.route("/compare/skaters", methods=["get", "post"])
+@app.route("/compare/goalies", methods=["get", "post"])
+def compare_players():
+    if request.method == "post":
+        return 0
+    else:
+        render_template("compare.html")
+
+
 @app.route("/stats/skaters")
-def skaterStats():
+def skater_stats():
     return render_template(
-        "skaterstats.html", column_names=result.columns.values, row_data=list(result.values.tolist()), zip=zip
+        "stats.html", column_names=skater_results.columns.values, row_data=list(skater_results.values.tolist()), zip=zip
+    )
+
+
+@app.route("/stats/goalies")
+def goalies_stats():
+    return render_template(
+        "stats.html", column_names=goalie_results.columns.values, row_data=list(goalie_results.values.tolist()), zip=zip
     )
 
 
 @app.route("/about")
-def aboutPage():
+def about_page():
     return render_template("about.html")
