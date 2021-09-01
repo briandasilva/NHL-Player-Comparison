@@ -1,20 +1,28 @@
 {% extends "layout.html" %} {% block content %}
 <section class="section">
-  <div class="container">
+  <div class="field">
     <form action="" method="post">
-      <input list="player1" />
-      <datalist id="player1">
-        {% for name in player_names%}
-        <option value="{{name}}">{{name}}</option>
-        {% endfor %}
-      </datalist>
-      <input list="player2" />
-      <datalist id="player2">
-        {% for name in player_names%}
-        <option value="{{name}}">{{name}}</option>
-        {% endfor %}
-      </datalist>
-      <input type="submit" text="Compare" />
+      <label class="label is-medium">First Player</label>
+      <div class="control">
+        <input class="input is-medium" list="player1" />
+        <datalist id="player1">
+          {% for name in player_names%}
+          <option value="{{name}}">{{name}}</option>
+          {% endfor %}
+        </datalist>
+      </div>
+      <label class="label is-medium">Second Player</label>
+      <div class="control">
+        <input class="input is-medium" list="player2" />
+        <datalist id="player2">
+          {% for name in player_names%}
+          <option value="{{name}}">{{name}}</option>
+          {% endfor %}
+        </datalist>
+      </div>
+      <div class="control">
+        <input class="input" type="submit" value="Compare" />
+      </div>
     </form>
   </div>
 </section>
