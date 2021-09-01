@@ -1,0 +1,21 @@
+{% extends "layout.html" %} {% block content %}
+<section class="section">
+  <div class="container">
+    <form action="" method="post">
+      <input list="player1" />
+      <datalist id="player1">
+        {% for name in player_names%}
+        <option value="{{name}}">{{name}}</option>
+        {% endfor %}
+      </datalist>
+      <input list="player2" />
+      <datalist id="player2">
+        {% for name in player_names%}
+        <option value="{{name}}">{{name}}</option>
+        {% endfor %}
+      </datalist>
+      <input type="submit" text="Compare" />
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request
 from bs4 import BeautifulSoup
-import requests
-import lxml
 import pandas as pd
 
 
@@ -16,6 +14,8 @@ skater_results = skater_results.append(df, sort=False)
 skater_results = skater_results[~skater_results["Age"].str.contains("Age")]
 skater_results = skater_results.reset_index(drop=True)
 
+skater_names = list(skater_results["Player"].values)
+
 
 goalie_results = pd.DataFrame()
 url = "https://www.hockey-reference.com/leagues/NHL_2021_goalies.html"
@@ -25,19 +25,23 @@ goalie_results = goalie_results.append(df, sort=False)
 goalie_results = goalie_results[~goalie_results["Age"].str.contains("Age")]
 goalie_results = goalie_results.reset_index(drop=True)
 
+goalie_names = list(goalie_results["Player"].values)
+
 
 @app.route("/")
 def home_page():
     return render_template("home.html")
 
 
-@app.route("/compare/skaters", methods=["get", "post"])
-@app.route("/compare/goalies", methods=["get", "post"])
-def compare_players():
-    if request.method == "post":
-        return 0
+@app.route("/compare/<player_type>", methods=["GET", "POST"])
+def compare_players(player_type):
+    if request.method == "POST":
+        return "Hello World"
     else:
-        render_template("compare.html")
+        if player_type == "skaters":
+            return render_template("compare.html", player_names=skater_names)
+        else:
+            return render_template("compare.html", player_names=goalie_names)
 
 
 @app.route("/stats/skaters")
