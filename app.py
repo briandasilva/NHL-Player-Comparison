@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from bs4 import BeautifulSoup
 import pandas as pd
 
 
 app = Flask(__name__)
+app.secret_key = "b'bi\xa8|\x02\x01\xea\t\xc9&|\xd8"
 
 
 skater_results = pd.DataFrame()
@@ -36,7 +37,19 @@ def home_page():
 @app.route("/compare/<player_type>", methods=["GET", "POST"])
 def compare_players(player_type):
     if request.method == "POST":
-        return "Hello World"
+        if player_type == "skaters":
+            if validate_players(request.form["player1"], request.form["player2"], skater_names):
+                return "All players are valid."
+            else:
+                flash("One or more players were invalid.")
+                return render_template("compare.html", player_names=skater_names)
+        else:
+            if validate_players(request.form["player1"], request.form["player2"], goalie_names):
+                return "All players are valid."
+            else:
+                flash("One or more players were invalid.")
+                return render_template("compare.html", player_names=goalie_names)
+
     else:
         if player_type == "skaters":
             return render_template("compare.html", player_names=skater_names)
@@ -61,3 +74,7 @@ def goalies_stats():
 @app.route("/about")
 def about_page():
     return render_template("about.html")
+
+
+def validate_players(player1, player2, players):
+    return player1 in players and player2 in players
