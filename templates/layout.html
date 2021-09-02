@@ -9,15 +9,13 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
     />
   </head>
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <ul class="flashes">
     {% for message in messages %}
-      <li>{{ message }}</li>
+    <li>{{ message }}</li>
     {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+  </ul>
+  {% endif %} {% endwith %}
   <section class="hero is-bold is-success">
     <div class="hero-body">
       <p class="title">NHL Player Comparison</p>
@@ -26,7 +24,24 @@
       </p>
     </div>
   </section>
-  <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+  <nav
+    class="navbar is-transparent"
+    role="navigation"
+    aria-label="main navigation"
+  >
+    <div class="navbar-brand">
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item" href="/"> Home </a>
@@ -39,16 +54,18 @@
             <a class="navbar-item" href="/compare/goalies"> Goalies </a>
           </div>
         </div>
-        
+
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link"> All Stats </a>
 
           <div class="navbar-dropdown">
             <a class="navbar-item" href="/stats/skaters"> Skaters </a>
             <a class="navbar-item" href="/stats/goalies"> Goalies </a>
-            </div>
+          </div>
         </div>
-    <a class="navbar-item" href="\about"> About </a>
+        <a class="navbar-item" href="\about"> About </a>
+      </div>
+    </div>
   </nav>
   <body>
     {% block content %}{% endblock %}
