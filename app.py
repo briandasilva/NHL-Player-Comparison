@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, json, render_template, request, flash
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -28,12 +28,9 @@ goalie_results = goalie_results.reset_index(drop=True)
 
 goalie_names = list(goalie_results["Player"].values)
 
-dougie = skater_results.loc[skater_results["Player"] == "Dougie Hamilton"]
-
 
 @app.route("/")
 def home_page():
-    print(dougie)
     return render_template("home.html")
 
 
@@ -42,21 +39,23 @@ def compare_players(player_type):
     if request.method == "POST":
         if player_type == "skaters":
             if validate_players(request.form["player1"], request.form["player2"], skater_names):
-                player1_stats = skater_results.loc[skater_results["Player"] == request.form["player1"]]
-                player2_stats = skater_results.loc[skater_results["Player"] == request.form["player2"]]
-                print(player1_stats.to_json())
-                print(player2_stats.to_json())
-                return "All players are valid."
+                player1_stats = skater_results.loc[skater_results["Player"] == request.form["player1"]].to_json()
+                player2_stats = skater_results.loc[skater_results["Player"] == request.form["player2"]].to_json()
+
+                player1_json = json.loads(player1_stats)
+                player2_json = json.loads(player2_stats)
+                return render_template("compareSkaters.html", player1=player1_json, player2=player2_json)
             else:
                 flash("One or more players were invalid.")
                 return render_template("compare.html", player_names=skater_names)
         else:
             if validate_players(request.form["player1"], request.form["player2"], goalie_names):
-                player1_stats = goalie_results.loc[goalie_results["Player"] == request.form["player1"]]
-                player2_stats = goalie_results.loc[goalie_results["Player"] == request.form["player2"]]
-                print(player1_stats.to_json())
-                print(player2_stats.to_json())
-                return "All players are valid."
+                player1_stats = goalie_results.loc[goalie_results["Player"] == request.form["player1"]].to_json()
+                player2_stats = goalie_results.loc[goalie_results["Player"] == request.form["player2"]].to_json()
+
+                player1_json = json.loads(player1_stats)
+                player2_json = json.loads(player2_stats)
+                return render_template("compareSkaters.html", player1=player1_json, player2=player2_json)
             else:
                 flash("One or more players were invalid.")
                 return render_template("compare.html", player_names=goalie_names)
