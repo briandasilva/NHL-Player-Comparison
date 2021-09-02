@@ -44,7 +44,9 @@ def compare_players(player_type):
 
                 player1_json = json.loads(player1_stats)
                 player2_json = json.loads(player2_stats)
-                return render_template("compareSkaters.html", player1=player1_json, player2=player2_json)
+                return render_template(
+                    "compare.html", player_names=skater_names, player1=player1_json, player2=player2_json
+                )
             else:
                 flash("One or more players were invalid.")
                 return render_template("compare.html", player_names=skater_names)
@@ -55,7 +57,9 @@ def compare_players(player_type):
 
                 player1_json = json.loads(player1_stats)
                 player2_json = json.loads(player2_stats)
-                return render_template("compareSkaters.html", player1=player1_json, player2=player2_json)
+                return render_template(
+                    "compare.html", player_names=goalie_names, player1=player1_json, player2=player2_json
+                )
             else:
                 flash("One or more players were invalid.")
                 return render_template("compare.html", player_names=goalie_names)
