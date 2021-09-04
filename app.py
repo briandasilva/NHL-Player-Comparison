@@ -1,7 +1,6 @@
 from flask import Flask, json, render_template, request, flash
 from bs4 import BeautifulSoup
 import pandas as pd
-from pandas.core.indexes.base import Index
 
 
 app = Flask(__name__)
@@ -69,11 +68,13 @@ def compare_players(player_type):
                     player_names=skaters_and_reference_index.keys(),
                     player1=player1_json,
                     player2=player2_json,
+                    id1=player1_id,
+                    id2=player2_id,
                 )
             else:
                 flash("One or more players were invalid.")
                 return render_template(
-                    "compare.html", player_names=skaters_and_reference_index.keys(), player1="", player2=""
+                    "compare.html", player_names=skaters_and_reference_index.keys(), player1={}, player2={}
                 )
         else:
             if validate_players(request.form["player1"], request.form["player2"], goalies_and_reference_index):
@@ -90,18 +91,24 @@ def compare_players(player_type):
                     player_names=goalies_and_reference_index.keys(),
                     player1=player1_json,
                     player2=player2_json,
+                    id1=player1_id,
+                    id2=player2_id,
                 )
             else:
                 flash("One or more players were invalid.")
                 return render_template(
-                    "compare.html", player_names=goalies_and_reference_index.keys(), player1="", player2=""
+                    "compare.html", player_names=goalies_and_reference_index.keys(), player1={}, player2={}
                 )
 
     else:
         if player_type == "skaters":
-            return render_template("compare.html", player_names=skaters_and_reference_index.keys())
+            return render_template(
+                "compare.html", player_names=skaters_and_reference_index.keys(), player1={}, player2={}
+            )
         else:
-            return render_template("compare.html", player_names=goalies_and_reference_index.keys())
+            return render_template(
+                "compare.html", player_names=goalies_and_reference_index.keys(), player1={}, player2={}
+            )
 
 
 @app.route("/stats/skaters")

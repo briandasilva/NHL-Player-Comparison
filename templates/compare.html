@@ -31,10 +31,26 @@
   </div>
     <div class="columns">
       <div class="column">
-          <p>{{player1}}</p>
+        <ul>
+        {% for key, value in player1.items() %}
+          {% for key2, value2 in value.items() %}
+            {% if key2|int == id1 %}
+              <li>{{key}}: {{value2}}</li>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        </ul>
       </div>
       <div class="column">
-          <p>{{player2}}</p>
+        <ul>
+        {% for key, value in player2.items() %}
+          {% for key2, value2 in value.items() %}
+            {% if key2|int == id2 %}
+              <li>{{key}}: {{value2}}</li>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        </ul>
       </div>
     </div>
 </div>
